@@ -21,7 +21,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public Task getTaskByID(long taskID) {
-        Task task = taskRepository.findTaskByID(taskID)
+        Task task = taskRepository.findById(taskID)
                 .orElseThrow(() -> new TaskNotFoundException(taskID));
 
         return task;
