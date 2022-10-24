@@ -32,7 +32,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public void updateTask(Task existingTask, long taskID) {
-         Task foundtask = taskRepository.findTaskByID(taskID)
+         Task foundtask = taskRepository.findById(taskID)
                  .orElseThrow(() -> new TaskNotFoundException(taskID));
 
          foundtask.setName(existingTask.getName());
@@ -44,7 +44,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public void deleteTaskById(long taskID) {
-        taskRepository.deleteTaskById(taskID)
-            .orElseThrow(() -> new TaskNotFoundException(taskID));
+        taskRepository.deleteById(taskID);
     }
 }
