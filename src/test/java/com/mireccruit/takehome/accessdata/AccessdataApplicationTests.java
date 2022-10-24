@@ -26,6 +26,33 @@ class AccessdataApplicationTests {
 	}
 
 	@Test
+	public void newTaskAPI() throws Exception
+	{
+		mvc.perform( MockMvcRequestBuilders
+						.put("/newTask")
+						.content(asJsonString(new Task("Task 1", "Doing a first task",true)))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+	}
+
+	@Test
+	public void updateTaskAPI() throws Exception
+	{
+		mvc.perform( MockMvcRequestBuilders
+						.post("/updateTask/{id}", 1)
+						.content(asJsonString(new Task(1, "Task 2", "Accompliishing second task" ,true)))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Task 2"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Accompliishing second task"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(true));
+	}
+
+
+	@Test
 	public void getTaskListAPI() throws Exception
 	{
 		mvc.perform( MockMvcRequestBuilders
@@ -33,8 +60,8 @@ class AccessdataApplicationTests {
 						.accept(MediaType.APPLICATION_JSON))
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.task").exists())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.task[*].id").isNotEmpty());
+				.andExpect(MockMvcResultMatchers.jsonPath("$").exists())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.[*].id").isNotEmpty());
 	}
 
 	@Test
@@ -44,35 +71,9 @@ class AccessdataApplicationTests {
 						.get("/GetTask/{id}", 1)
 						.accept(MediaType.APPLICATION_JSON))
 				.andDo(print())
-				.andExpect(status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1));
 	}
 
-	@Test
-	public void newTaskAPI() throws Exception
-	{
-		mvc.perform( MockMvcRequestBuilders
-						.put("/newTask ")
-						.content(asJsonString(new Task("Task 1", "Doing a first task",true)))
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isCreated())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.employeeId").exists());
-	}
-
-	@Test
-	public void updateTaskAPI() throws Exception
-	{
-		mvc.perform( MockMvcRequestBuilders
-						.post("/updateTask/{id}", 2)
-						.content(asJsonString(new Task(2, "Task 2", "Accompliishing second task" ,true)))
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Task 2"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Accompliishing second task"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(true));
-	}
 
 	@Test
 	public void deleteTaskAPI() throws Exception
