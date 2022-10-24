@@ -13,8 +13,8 @@ public class DataAccessExceptionAdvice {
 
     @ResponseBody
     @ExceptionHandler(DataAccessException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String DataAccessExceptionHandler(DataAccessException ex) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String DataAccessExceptionHandler(DataAccessException ex) {
         return ex.getCause().getMessage();
     }
 }

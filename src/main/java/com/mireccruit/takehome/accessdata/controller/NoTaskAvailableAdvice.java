@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NoTaskAvailableAdvice {
 
     @ResponseBody
-    @ExceptionHandler(TaskNotFoundException.class)
+    @ExceptionHandler(NoTaskAvailableException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String NoTaskAvailableHandler(NoTaskAvailableException ex) {
+    public String NoTaskAvailableHandler(NoTaskAvailableException ex)
+    {
         return ex.getMessage();
     }
 }

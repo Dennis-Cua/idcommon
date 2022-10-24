@@ -13,7 +13,16 @@ public class Task {
     private String description;
     private Boolean status;
 
+    public Task() {};
+
     public Task(String name, String description, Boolean status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
+
+    public Task(long taskID,String name, String description, Boolean status) {
+        this.id = taskID;
         this.name = name;
         this.description = description;
         this.status = status;
