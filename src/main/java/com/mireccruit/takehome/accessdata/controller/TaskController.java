@@ -2,13 +2,15 @@ package com.mireccruit.takehome.accessdata.controller;
 
 import com.mireccruit.takehome.accessdata.domain.Task;
 import com.mireccruit.takehome.accessdata.exceptions.NoTaskAvailableException;
-import com.mireccruit.takehome.accessdata.exceptions.TaskNotFoundException;
 import com.mireccruit.takehome.accessdata.service.TaskService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 public class TaskController {
@@ -32,18 +34,24 @@ public class TaskController {
     }
 
     @PutMapping(value = "/newTask")
-    public void newTask(@RequestBody Task newTask) {
+    public ResponseEntity<Task> newTask(@RequestBody Task newTask) {
         taskService.newTask(newTask);
+
+        return new ResponseEntity<Task>(newTask, HttpStatus.CREATED);
     }
 
     @PostMapping("/updateTask/{id}")
-    public void updateTask(@RequestBody Task existingTask, @PathVariable Long id) {
+    public ResponseEntity<Task> updateTask(@RequestBody Task existingTask, @PathVariable Long id) {
         taskService.updateTask(existingTask, id);
+
+        return new ResponseEntity<Task>(existingTask, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteTask/{id}")
-    void deleteTask(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteTask(@PathVariable Long id) {
         taskService.deleteTaskById(id);
+
+        return new ResponseEntity<HttpStatus>(HttpStatus.ACCEPTED);
     }
 
 
