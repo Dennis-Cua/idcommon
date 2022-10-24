@@ -5,6 +5,7 @@ import com.mireccruit.takehome.accessdata.exceptions.TaskNotFoundException;
 import com.mireccruit.takehome.accessdata.repository.TaskRepository;
 import com.mireccruit.takehome.accessdata.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +45,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public void deleteTaskById(long taskID) {
-        taskRepository.deleteById(taskID);
+        if (taskRepository.existsById(taskID)) {
+            taskRepository.deleteById(taskID);
+        }
     }
 }
