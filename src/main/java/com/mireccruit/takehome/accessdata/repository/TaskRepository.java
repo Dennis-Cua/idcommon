@@ -11,10 +11,4 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    @Query(value = "select task from Task AS task where Task.id = :taskID", nativeQuery = true)
-    Optional<Task> findTaskByID(long taskID);
-
-    @Modifying
-    @Query(value = "delete from Task where Task.id = :taskID", nativeQuery = true)
-    Optional<Task> deleteTaskById(long taskID);
 }
